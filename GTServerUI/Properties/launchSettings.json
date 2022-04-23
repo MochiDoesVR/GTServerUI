@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "GTServerUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "GTServerUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

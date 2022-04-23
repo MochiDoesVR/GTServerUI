@@ -1,0 +1,140 @@
+﻿ <Window
+    x:Class="GTServerUI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GTServerUI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="42"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!-- The title bar is currently a bit weird, due to a bug with title button layers in WinUI 3! -->
+        <Grid x:Name="AppTitleBar" VerticalAlignment="Center" ColumnSpacing="16" Margin="16,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       VerticalAlignment="Center"
+                       x:Name="AppTitleTextBlock" Text="GTServer"
+                       TextWrapping="NoWrap"
+                       Style="{StaticResource CaptionTextBlockStyle}" 
+                       Margin="0,0,0,0"/>
+        </Grid>
+
+
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0">
+            <NavigationView IsSettingsVisible="False" IsBackButtonVisible="Collapsed" x:Name="Dashboard" PaneDisplayMode="Auto" IsPaneToggleButtonVisible="False">
+                <NavigationView.MenuItems>
+                    <NavigationViewItem Content="Dashboard" Tag="tabDashboard" IsSelected="True">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEB51;"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem Content="Device" Tag="tabDevice">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF211;"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem Content="OSC" Tag="tabOsc">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEC27;"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                    <NavigationViewItem Content="About" Tag="tabAbout">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE946;"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                </NavigationView.MenuItems>
+                <NavigationView.Content>
+                    <Grid>
+                        <Grid x:Name="paneDashboard" RowSpacing="32" Margin="32,32,32,32" VerticalAlignment="Top" HorizontalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="96"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Style="{StaticResource HeaderTextBlockStyle}" TextAlignment="Center" VerticalAlignment="Top">Dashboard</TextBlock>
+
+                            <Grid Grid.Row="1" ColumnSpacing="32" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <FontIcon Grid.Column="0" FontSize="48" x:Name="HeartrateIcon" FontFamily="Segoe Fluent Icons" Glyph="&#xEB51;"></FontIcon>
+                                <TextBlock  Grid.Column="1" Width="48" x:Name="HeartrateTicker"  Style="{StaticResource TitleTextBlockStyle}" TextAlignment="Center" VerticalAlignment="Center">---</TextBlock>
+
+                                <FontIcon Grid.Column="2" FontSize="56" x:Name="BatteryIcon" FontFamily="Segoe Fluent Icons" Glyph="&#xEBA0;"></FontIcon>
+                                <TextBlock  Grid.Column="3" Width="48" x:Name="BatteryTicker" Style="{StaticResource TitleTextBlockStyle}" TextAlignment="Center" VerticalAlignment="Center">---</TextBlock>
+                            </Grid>
+
+                            <TextBlock Grid.Row="2" x:Name="WatchStatusLabel" Style="{StaticResource BaseTextBlockStyle}" TextAlignment="Center" VerticalAlignment="Center">Watch Status: Disconnected</TextBlock>
+                            <TextBlock Grid.Row="3" x:Name="OscStatusLabel" Style="{StaticResource BaseTextBlockStyle}" TextAlignment="Center" VerticalAlignment="Center">OSC Status: Idle</TextBlock>
+                        </Grid>
+
+                        <Grid x:Name="paneDevice" RowSpacing="12" Visibility="Collapsed" Margin="32,32,32,32" VerticalAlignment="Top" HorizontalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="96"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Style="{StaticResource HeaderTextBlockStyle}" TextAlignment="Center" VerticalAlignment="Top">Device Management</TextBlock>
+                            <TextBlock Grid.Row="1" Style="{StaticResource SubtitleTextBlockStyle}" TextAlignment="Left" VerticalAlignment="Top">Available Devices</TextBlock>
+                            <ProgressBar Name="ConnectionIndefiniteIndicator" IsIndeterminate="True" Grid.Row="2"/>
+                            <ScrollViewer Grid.Row="3" Height="400" VerticalScrollBarVisibility="Hidden">
+                                <Grid x:Name="deviceList" VerticalAlignment="Top" HorizontalAlignment="Center" RowSpacing="8" Height="Auto"/>
+                            </ScrollViewer>
+                        </Grid>
+
+                        <Grid x:Name="paneOsc" RowSpacing="32" Visibility="Collapsed" Margin="32,32,32,32" VerticalAlignment="Top" HorizontalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="96"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Style="{StaticResource HeaderTextBlockStyle}" TextAlignment="Center" VerticalAlignment="Top">OSC Settings</TextBlock>
+                            <NumberBox Grid.Row="1" x:Name="SendPortInputBox" PlaceholderText="9000" Maximum="65535" Minimum="0" ValidationMode="InvalidInputOverwritten" Header="OSC Send Port"></NumberBox>
+                            <TextBox x:Name="AddressInputBox" Width="280" Grid.Row="2" Header="OSC Server IP" HorizontalAlignment="Center" PlaceholderText="127.0.0.1"></TextBox>
+                            <TextBox x:Name="HeartrateOverrideInputBox" Width="280" Grid.Row="3" Header="Battery OSC Address Override" HorizontalAlignment="Center" PlaceholderText="/parameters/Heartrate"></TextBox>
+                            <TextBox x:Name="BatteryOverrideInputBox" Width="280" Grid.Row="4" Header="Battery OSC Address Override" HorizontalAlignment="Center" PlaceholderText="/parameters/HRMBattery"></TextBox>
+                        </Grid>
+
+                        <Grid x:Name="paneAbout" RowSpacing="32" Visibility="Collapsed" Margin="32,32,32,32" VerticalAlignment="Top" HorizontalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="96"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Style="{StaticResource HeaderTextBlockStyle}" TextAlignment="Center" VerticalAlignment="Top">About</TextBlock>
+                            <TextBlock Width="Auto" Grid.Row="1" HorizontalAlignment="Center">GTServer v2 by <Hyperlink NavigateUri="https://github.com/MochiDoesVR">MochiDoesVR</Hyperlink></TextBlock>
+                            <TextBlock Width="Auto" Grid.Row="2" HorizontalAlignment="Center">This project is powered by <Hyperlink NavigateUri="https://github.com/dastevens/CoreOSC">OSCCore</Hyperlink></TextBlock>
+                            <TextBlock Width="Auto" MaxLines="2" TextWrapping="Wrap" Grid.Row="3" HorizontalTextAlignment="Center" HorizontalAlignment="Center">Thanks to <Hyperlink NavigateUri="https://github.com/fbiego">fbiego</Hyperlink> for <Hyperlink NavigateUri="https://github.com/fbiego/dt78">DT78</Hyperlink>, which proved to be an invaluable resource, and helped me get started on reverse engineering the GT101.</TextBlock>
+                            <Button HorizontalAlignment="Center" Grid.Row="4">ඞ &lt;3</Button>
+                        </Grid>
+
+                    </Grid>
+                </NavigationView.Content>
+            </NavigationView>
+        </Grid>
+    </Grid>
+</Window>
